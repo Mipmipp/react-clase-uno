@@ -6,18 +6,30 @@
  * onChange es una función que se debe disparar cuando el checkbox se selecciona.
  */
 
-export function ControlledCheckbox(props) {}
+export function ControlledCheckbox(props) {
+   return (
+      <div>
+         <label htmlFor={props.nombre}>{props.nombre}</label>
+         <input
+            type="checkbox"
+            id={props.nombre}
+            checked={props.value}
+            onChange={props.onChange}
+         />
+      </div>
+   );
+}
 
 /*
  * Este componente debe renderizar una lista de componentes ControlledCheckbox.
  * Debes completar ese componente antes de completar este.
  * Recibirá una prop: items.
  * items es un objeto de forma { [nombre]: [valorInicial] }, que liste todos los checkboxes por ejemplo:
- * <ControlledCheckboxList items={
- *   uno: false,
- *   dos: true,
- *   tres: false,
- * } />
+ <ControlledCheckboxList items={
+   uno: false,
+   dos: true,
+    tres: false,
+  } />
  * debe renderizar tres checkboxes, con nombres "uno", "dos" y "tres", que inicien con valores false, true y false respectivamente.
  * Este componente tendrá un solo estado, que tendrá la misma forma que la prop items.
  * La única diferencia es que el estado debe CAMBIAR según se vayan clickeando los checkboxes.
@@ -29,7 +41,22 @@ export function ControlledCheckbox(props) {}
  * }
  */
 
-export function CheckboxListWithState(props) {}
+export function CheckboxListWithState(props) {
+   const [checkboxes, setCheckboxes] = React.useState(props.items);
+
+   return (
+      <div>
+         {Object.entries(checkboxes).map(([key, value]) => (
+            <ControlledCheckbox
+               key={key}
+               value={value}
+               nombre={key}
+               onChange={() => setCheckboxes({ ...checkboxes, [key]: !value })}
+            />
+         ))}
+      </div>
+   );
+}
 
 /*
  * Para este punto, seguramente hayan notado las palabras "Controlled" y
